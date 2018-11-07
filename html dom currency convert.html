@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<style>
+			div {text-align:center;}
+			body {border: 1px solid gray;}
+		</style>
+		
+		<script>
+			var number = "";
+			var currency = "English pounds";
+			var converted = 0;
+			
+			function updateCurrency(cur) {
+				currency = cur;
+			}
+			
+			function updateNumber() {
+				number = document.getElementById("input").value;
+			}
+			
+			function quit() {
+				if(window.confirm("Are you sure you want to quit?")){
+					window.close;
+				}
+			}
+			
+			function convert() {
+				updateNumber();
+				console.log(currency);
+				if(currency == "Euros") {
+					converted = number * 0.88;
+					document.getElementById("output").innerHTML= "The value of $" + number + " in Us dollars is " + converted + " in Euros";
+				}
+				if(currency == "English pounds") {
+					converted = number * 0.77;
+					document.getElementById("output").innerHTML = "The value of $" + number + " in Us dollars is " + converted + " in English pounds";
+				}
+				if(currency == "Japanese yen") {
+					converted = number * 113.25;
+					document.getElementById("output").innerHTML = "The value of $" + number + " in Us dollars is " + converted + " in Japanese yen";
+				}
+			}
+		
+			function numbers(num) {
+				updateNumber();
+				if(number == "") {
+					number = num;
+					document.getElementById("input").value = number;
+				}
+				else {
+					number = number + num;
+					document.getElementById("input").value = number;
+				}
+			}
+		</script>
+	</head>
+	
+
+	
+	<body>
+	
+		<div>
+			Enter dollars(US): <input type="text" id="input" name="input"><br><br>
+		</div>
+	
+		<div>
+			Select Foreign Currency:
+			<select>
+			  <option value="English pounds" onclick="updateCurrency('English pounds')">English Pounds</option>
+			  <option value="Japanese yen" onclick="updateCurrency('Japanese yen')">Japanese yen</option>
+			  <option value="Euros" onclick="updateCurrency('Euros')">Euros</option>
+			</select>
+		</div>
+		
+		<div id="output"></div>
+		
+		<div>
+			<table>
+				<button type="button" onclick="numbers('0')">0</button>
+				<button type="button" onclick="numbers('1')">1</button>
+				<button type="button" onclick="numbers('2')">2</button>
+				<button type="button" onclick="numbers('3')">3</button>
+				<button type="button" onclick="numbers('4')">4</button><br>
+				<button type="button" onclick="numbers('5')">5</button>
+				<button type="button" onclick="numbers('6')">6</button>
+				<button type="button" onclick="numbers('7')">7</button>
+				<button type="button" onclick="numbers('8')">8</button>
+				<button type="button" onclick="numbers('9')">9</button>
+			</table>
+		</div>
+		
+		<div>
+			<button type="button" onclick="convert()">Convert</button><br>
+			<button type="button" onclick="quit()">Quit</button>
+		</div>
+	
+	</body>
+	
+</html>

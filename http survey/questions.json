@@ -1,0 +1,16 @@
+{
+	"questions": [
+		{
+			"question": "how are you?",
+			"answers" : ["good", "bad", "hmm"]
+		},
+		{
+			"question" : "what is your favorite food?",
+			"answers" : ["pizza", "ice cream", "neither of these"]
+		},
+		{
+			"question" : "why?",
+			"answers" : ["what?", "uhh", "hmm"]
+		}
+	]
+}

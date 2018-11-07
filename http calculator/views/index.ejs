@@ -1,0 +1,32 @@
+<html>
+	<head>
+		<title></title>
+	</head>
+
+	<body>
+		
+		<div>
+			<div>
+				<p>Calculator</p><br>
+				<p>Current Value <%= value %></p>
+				<form method="POST">
+					<input type="number" name="number"><br>
+					<input type="submit" name = "action" value="add" formaction="/add">
+					<input type="submit" name = "action" value="subtract" formaction="/subtract">
+					<input type="submit" name = "action" value="pop" formaction="/pop">
+				</form>		
+				<form method="GET">
+					<input type="submit" name = "Reset" value="reset" formaction="/reset">
+				</form>
+			</div>
+			
+			
+			<div>
+				<p>History of Operations</p>
+				<textarea readonly rows="30" cols="50"><%= output %></textarea>
+			</div>
+		</div>
+		
+
+	</body>
+</html>

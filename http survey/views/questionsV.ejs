@@ -1,0 +1,33 @@
+<html>
+	<head>
+		SurveyV page: <%= pageNum %> for user <%= userName %>
+	</head>
+
+	<body>
+
+		
+		<div><a href="/pref">Change Preferences</a></div><br>
+		
+
+
+		<div><%= question %></div>
+	
+	
+		<form method="POST">
+		
+			<% for(let i = 0; i < answers.length; i++) { %>
+				<% if(answers[i] == popped) { %>
+						<input type="radio" name="answer" value="<%= answers[i] %>" checked><%= answers[i] %><br>
+				<% }else if(answers[i] == prevAnswer) { %>
+						<input type="radio" name="answer" value="<%= answers[i] %>" checked><%= answers[i] %><br>				
+				<% }else{ %>
+						<input type="radio" name="answer" value="<%= answers[i] %>"><%= answers[i] %><br>  
+				<% } %>
+			<% } %>
+			
+			<input type="submit" name = "action" value="next" >
+			<input type="submit" name = "action" value="previous">
+		</form>
+		
+	</body>
+</html>

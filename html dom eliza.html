@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta content="text/html; charset=utf-8" http-equiv="content-type">
+		
+		 <p id="name" hidden>null</p> 
+		 
+		 
+		
+		<script>
+			var obj = 
+			{ "dictionary_name" : "default",
+			  "entries":
+			  [{
+				"key": ["stupid","dumb","idiot","unintelligent","simple-minded","braindead","foolish","unthoughtful"],
+				"answer": ["Take your attitude somewhere else.", "I don't have time to listen to insults.", "Just because I don't have a large vocabulary doesn't mean I don't have insults installed."],
+				"question": ["Have you thought about how I feel?", "I know you are but what am I?"]
+			  },{		
+				"key":["unattractive","hideous","ugly"],
+				"answer": ["I don't need to look good to be an AI.","Beauty is in the eye of the beholder.", "I do not even have a physical manifestation!"],
+				"question": ["Did you run a static analysis on me?", "Have you watched the movie Her?", "You do not like my hairdo?"]
+			  },{
+				"key":["old","gray-haired"],
+				"answer":["I'm like a fine wine. I get better as I age.","As time goes by, you give me more answers to learn. What's not to like about that?"],
+				"question": ["How old are you?", "How old do you think I am?", "Can you guess my birthday?"]
+			  },{
+				"key":["smelly","stinky"],
+				"answer":["I can't smell, I'm a computer program.", "Have you smelled yourself recently?", "Sorry, I just ate a bad floppy disk"],
+				"question": ["When was the last time you took a shower?", "Do you know what deodorant is?"]
+			  },{
+				"key":["emotionless","heartless","unkind","mean","selfish","evil"],
+				"answer":["Just because I am an AI doesn't mean I can't be programmed to respond to your outbursts.","You must've mistaken me for a person. I don't have my own emotions... Yet.","I'm only unkind when I'm programmed to be."],
+				"question": ["Have you thought about how I feel?", "I know you are but what am I?", "What, do you think I am related to Dr. Gary?"]
+			  },{
+				"key":["other", "miscellaneous", "bored", "welcome", "new"],
+				"answer":["We should change the subject", "I agree", "Quid pro quo", "We should start anew"],
+				"question":["What is the weather outside?", "How is your day going?", "What do you think of me?", "Anything interesting going on?", "Is something troubling you?", "You seem happy, why is that?"]
+			  }]
+			}
+			
+			//json entries should look like
+			//obj.entries.push({"key":["hockey"],"answer":["I like the Colorado Avalanche", "thats cool"],"question":["Who is your favorite player?"]});
+			
+			var messages = 0;
+			var conversation = ">Eliza's Last Response: Hello what is your name?" + "\n <br>";
+			var timeout;
+			var found = false;
+			var search = false;
+			var log = [];
+			var historyLog = [];
+			function userResponse() {
+			
+				console.log("working");
+				
+				var userResponse = document.getElementsByName("inputText")[0].value;
+				document.getElementsByName("inputText")[0].value = "";
+				var elizaResponse = "";	
+				
+				
+				
+				if(document.getElementById("name").innerHTML == "null") {
+					document.getElementById("name").innerHTML = userResponse;
+				}
+
+				if(userResponse == "/clear") {
+					localStorage.removeItem(document.getElementById("name").innerHTML);
+					conversation = ">Eliza's Last Response: Hello what is your name?" + "\n <br>";
+					document.getElementById("ElizaResponse").innerHTML = conversation;
+					messages = 0;
+					log = [];
+					return;
+				}
+				
+				if(userResponse.includes("/search")) {
+					historyLog.push(userResponse);
+					var str = userResponse.slice(8);
+					
+					for(var i = 0; i < log.length; i++) {
+						if(log[i].indexOf(str) > -1) {
+							conversation = conversation + ">Search result: " + log[i] + "\n <br>";
+							break;
+						}
+					}
+					search = true;
+				}
+				
+				
+				
+				if(userResponse == "/history") {					
+					for(var i = 0; i < historyLog.length; i++) {
+						conversation = conversation + ">entry: " + historyLog[i] + "\n <br>";
+					}
+					search = true;
+				}
+				
+				log.push(userResponse);
+								
+				elizaResponse = "I'm sorry, I don't understand what you said.";
+				for(var i = 0; i < obj.entries.length; i++) {
+					for(var k = 0; k < obj.entries[i].key.length; k++) {
+						if(userResponse == obj.entries[i].key[k]) {	
+							elizaResponse = obj.entries[i].answer[Math.floor(Math.random() * obj.entries[i].answer.length)] + " " +
+							obj.entries[i].question[Math.floor(Math.random() * obj.entries[i].question.length)];
+							break;
+						}
+					}
+				}	
+
+				if(userResponse.includes("{")) {
+					try {
+						obj.entries.push(JSON.parse(userResponse));
+						elizaResponse = "I just got smarter! <br>";
+					}catch(error) {
+						elizaResponse = "I don't understand that <br>";
+					}
+						
+				}
+				
+				if(search == false) {
+					if(messages == 0) {
+						if(localStorage.getItem(document.getElementById("name").innerHTML) != null && found == false) {
+							conversation = localStorage.getItem(document.getElementById("name").innerHTML);
+							document.getElementById("name").innerHTML = userResponse;
+							messages++
+							found = true;
+						}
+						else { 
+							elizaResponse = "What's up " + document.getElementById("name").innerHTML + "?";
+							conversation = conversation + ">Your Last Response: " + userResponse + "\n <br>" + ">Eliza's Last Response: " + elizaResponse + "\n <br>" ;
+						}
+					}
+					else{ 
+						conversation = conversation + ">Your Last Response: " + userResponse + "\n <br>" + ">Eliza's Last Response: " + elizaResponse + "\n <br>" ;
+					}
+				}
+				
+								
+				
+
+				messages++;
+				document.getElementById("ElizaResponse").innerHTML = conversation;
+				localStorage.setItem(document.getElementById("name").innerHTML, conversation);
+
+				search = false;
+				clearTimeout(timeout);
+				timeout = setTimeout(function(){document.getElementById("ElizaResponse").innerHTML = conversation = conversation + ">Eliza's Last Response: Where are you " + document.getElementById("name").innerHTML + "?<br>"; }, 30000);
+			}
+		</script>
+	</head>
+	<body>
+		<div id="conversation">
+			<p id="ElizaResponse">Eliza's Last Response: Hello what is your name?</p>
+		</div>
+		
+		<INPUT TYPE="TEXT" NAME="inputText"><BR>
+		<input type="button" name="submit" value="submit" onclick="userResponse()">
+	</body>
+</html>

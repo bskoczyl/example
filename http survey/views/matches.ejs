@@ -1,0 +1,12 @@
+<html>
+	<head>
+		Best survey matches for <%= userName %> best-to-worst<br>
+	</head>
+
+	<body>
+		<% for(let i = 0; i < array.length; i++) { %>
+			<%= i+1%>. User: <%= array[i].user %> matched <%= array[i].matchedAnswers %> answers<br>
+		<% } %>
+
+	</body>
+</html>
